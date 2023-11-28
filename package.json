@@ -1,0 +1,32 @@
+{
+	"name": "fivem-auto-restart",
+	"displayName": "fivem-auto-restart",
+	"description": "Simple extention that automatically restarts resources on saved changes. Makes use of rcon to communicate with your FiveM Server for easy development!",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.84.0"
+	},
+	"activationEvents": [],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "fivem-auto-restart.connect",
+				"title": "Connect to FiveM Server"
+			},
+			{
+				"command": "fivem-auto-restart.disconnect",
+				"title": "Disconnect from FiveM Server"
+			}
+		]
+	},
+	"devDependencies": {
+		"@types/mocha": "^10.0.3",
+		"@types/node": "18.x",
+		"@types/vscode": "^1.84.0",
+		"typescript": "^5.2.2"
+	},
+	"dependencies": {
+		"rcon": "^1.1.0"
+	}
+}
