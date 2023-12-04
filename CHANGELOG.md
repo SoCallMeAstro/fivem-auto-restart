@@ -14,3 +14,14 @@
 ## [1.0.1]
 
 * Added back extention image
+
+## [1.1.0]
+
+### Bug Fixes:
+
+* Fixed saving handler, no longer duplicates
+* Fixed disconnect command throwing an error if not conencted to a server
+
+### Features:
+
+* Added a small cooldown when saving, so  it's a little less spammy

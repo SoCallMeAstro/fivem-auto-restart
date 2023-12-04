@@ -59,18 +59,6 @@ const ConnectionHandler = (password) => {
 			if (response.includes("Scanning resources")) {
 				ConnectionResponse = {type: "info", message: "Successfully connected to the server!"}; Connected = true
 				ExtentionIcon.text = StatusIcons.disconnect.text; ExtentionIcon.tooltip = StatusIcons.disconnect.tooltip; ExtentionIcon.command = StatusIcons.disconnect.command
-				vscode.workspace.onDidSaveTextDocument(async (document) => {
-					if (document.uri.scheme === "file" && await DirectoryCheck(document.uri.path)) {
-						const SplitDirectory = path.posix.dirname(document.uri.path).split(path.posix.sep)
-						const ResourceName = SplitDirectory.findIndex((part, index, parts) => {
-							if (part.includes("[") && part.includes("]")) return parts[index + 1]
-						})
-						if (ResourceName !== -1 && ResourceName < SplitDirectory.length - 1) {
-							if (document.uri.path.includes("fxmanifest.lua") || document.uri.path.includes("__resource.lua")) rconconnection.send("refresh");
-							rconconnection.send(`ensure ${SplitDirectory[ResourceName + 1]}`)
-						}
-					}
-				})
 			}
 		})
 		rconconnection.on("end", () => {
@@ -101,6 +89,7 @@ const IPChangeHandler = async () => {
 }
 
 
+let Cooldown = 0;
 const activate = (context) => {
 	WorkspaceState = context.workspaceState
 
@@ -118,10 +107,31 @@ const activate = (context) => {
 		if (passwordinput && passwordinput !== "") ConnectionHandler(passwordinput);
 	})
 	const disconnectcommand = vscode.commands.registerCommand("fivem-auto-restart.disconnect", () => {
-		NotifyHandler({type: "warn", message: "Disconnected from the server"})
-		rconconnection.disconnect()
+		if (rconconnection) {
+			NotifyHandler({type: "warn", message: "Disconnected from the server"})
+			rconconnection.disconnect()
+		}
 	})
 	const ipcommand = vscode.commands.registerCommand("fivem-auto-restart.ipchange", IPChangeHandler)
+
+	vscode.workspace.onDidSaveTextDocument(async (document) => {
+		if (rconconnection) {
+			const CurrentTime = Date.now()
+			if (CurrentTime - Cooldown > 2000) {
+				Cooldown = CurrentTime
+				if (document.uri.scheme === "file" && await DirectoryCheck(document.uri.path)) {
+					const SplitDirectory = path.posix.dirname(document.uri.path).split(path.posix.sep)
+					const ResourceName = SplitDirectory.findIndex((part, index, parts) => {
+						if (part.includes("[") && part.includes("]")) return parts[index + 1]
+					})
+					if (ResourceName !== -1 && ResourceName < SplitDirectory.length - 1) {
+						if (document.uri.path.includes("fxmanifest.lua") || document.uri.path.includes("__resource.lua")) rconconnection.send("refresh");
+						rconconnection.send(`ensure ${SplitDirectory[ResourceName + 1]}`)
+					}
+				}
+			}
+		}
+	})
 
 	context.subscriptions.push(connectcommand, disconnectcommand, ipcommand, ExtentionIcon)
 }

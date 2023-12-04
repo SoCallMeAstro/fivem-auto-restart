@@ -4,7 +4,7 @@
 	"publisher": "AstroDevelopment",
 	"description": "Simple extention that automatically restarts resources on saved changes. Makes use of rcon to communicate with your FiveM Server for easy development!",
 	"repository": "https://github.com/SoCallMeAstro/fivem-auto-restart",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"icon": "fivem-restart.png",
 	"engines": {
 		"vscode": "^1.84.0"
