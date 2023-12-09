@@ -12,4 +12,6 @@ The password doesn't really matter, you can put whatever you would like in there
 
 After you add the password, and restart you server you can then, Ctrl + Shift + P to open the command pallet, and select "Connect to FiveM Server", enter whatever password you have in your server.cfg.
 
+If you find an issue, or need any assistance please feel free to join discord: https://discord.gg/R9cpRtR7WM
+
 **Enjoy!**
