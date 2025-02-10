@@ -8,6 +8,8 @@ To use this extention, all you need to do is setup a rcon password in your serve
 
 `rcon_password "whateverpassword"`
 
+If you're on a newer artifacts version and `rcon_password "whateverpassword"` no longer works, use `set rcon_password "whateverpassword"` instead!
+
 The password doesn't really matter, you can put whatever you would like in there
 
 After you add the password, and restart you server you can then, Ctrl + Shift + P to open the command pallet, and select "Connect to FiveM Server", enter whatever password you have in your server.cfg.
